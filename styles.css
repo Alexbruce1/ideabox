@@ -1,6 +1,11 @@
-*{
-    box-sizing: border-box;
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+  font-family: 'Roboto Slab', serif;
+  font-size: 700;
 }
+
 
 main {
     background-color: #e5f3f2;
@@ -11,7 +16,15 @@ main {
 }
 h1 {
     display: block;
+    font-family: 'Roboto Slab', serif;
+    font-size: 4rem;
+    color: #00a79d;
+}
 
+.box-logo {
+    font-family: 'Roboto Slab', serif;
+    font-size: 4rem;
+    color: #6d6e71;
 }
 
 input {
