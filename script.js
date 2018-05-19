@@ -26,7 +26,7 @@ $('.downvote-button').hover(function() {
   // constructor function for ideas:
 
   function Idea(title,body,quality) {
-      this.id = Date.now();
+    //   this.id = Date.now();
       this.title = title;
       this.body = body;
       this.quality = quality;
@@ -35,6 +35,9 @@ $('.downvote-button').hover(function() {
   function makeIdea(event){
     event.preventDefault();
     var userIdea = new Idea($title.val(),$body.val(),0);
+    var object = JSON.stringify(userIdea);
+    var key = JSON.stringify(Date.now());
+    localStorage.setItem(key, object);
     ideaArray.push(userIdea);
     console.log(ideaArray);  
   }
