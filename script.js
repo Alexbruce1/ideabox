@@ -1,7 +1,6 @@
 var $title = $('#title-input');
 var $body = $('#body-input');
 var $submit = $('.submit-button');
-var ideaArray = [];
 
 $('.delete-button').hover(function() {
     $(this).attr('src', './images/delete-hover.svg');
@@ -25,19 +24,34 @@ $('.downvote-button').hover(function() {
 
   // constructor function for ideas:
 
-  function Idea(title,body,quality) {
-    //   this.id = Date.now();
+  function Idea(title,body) {
       this.title = title;
       this.body = body;
-      this.quality = quality;
+      this.quality = 0;
+      this.id = Date.now();
   }
 
   function makeIdea(event){
     event.preventDefault();
-    var userIdea = new Idea($title.val(),$body.val(),0);
+    var userIdea = new Idea($title.val(),$body.val());
     var object = JSON.stringify(userIdea);
     var key = JSON.stringify(Date.now());
-    localStorage.setItem(key, object);
-    ideaArray.push(userIdea);
-    console.log(ideaArray);  
+    localStorage.setItem(key, object); 
+    addIdeaToDom($title.val(),$body.val());
+  }
+
+  function addIdeaToDom(title, body) {
+    var ideaInList = (`
+        <div class="idea-title-header">
+            <h2>${title}</h2>
+            <img src="./images/delete.svg" alt="delete-button" class="delete-button">
+        </div>
+        <p>${body}</p>
+        <div class="voting-buttons">
+            <img src="./images/upvote.svg" alt="upvote-button" class="upvote-button">
+            <img src="./images/downvote.svg" alt="downvote-button" class="downvote-button">
+            <h3>quality: <span class="idea-rating">swill</span></h3>
+        </div>
+    `)
+    $('article').append(ideaInList);
   }
