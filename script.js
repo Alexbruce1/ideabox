@@ -55,3 +55,9 @@ $('.downvote-button').hover(function() {
     `)
     $('article').append(ideaInList);
   }
+
+  $('article').on('click', logSomething);
+
+  function logSomething() {
+      console.log('something');
+  }
