@@ -35,7 +35,7 @@ $submit.on('click', makeIdea);
 
   function addIdeaToList(theArray) {
     var ideaList = '';
-    for (var i = 0; i < theArray.length; i++) {
+    for (var i = (theArray.length - 1); i >= 0; i--) {
       ideaList += (`
       <div class="idea-title-header">
         <h2 contenteditable="true">${theArray[i].title}</h2>
