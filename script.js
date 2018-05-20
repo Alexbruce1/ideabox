@@ -1,26 +1,9 @@
 var $title = $('#title-input');
 var $body = $('#body-input');
 var $submit = $('.submit-button');
+var ideaArray = [];
 
-$('.delete-button').hover(function() {
-    $(this).attr('src', './images/delete-hover.svg');
-  }, function() {
-    $(this).attr('src', './images/delete.svg');
-  });
-
-$('.upvote-button').hover(function() {
-    $(this).attr('src', './images/upvote-hover.svg');
-  }, function() {
-    $(this).attr('src', './images/upvote.svg');
-  });
-
-$('.downvote-button').hover(function() {
-    $(this).attr('src', './images/downvote-hover.svg');
-  }, function() {
-    $(this).attr('src', './images/downvote.svg');
-  });
-
-  $submit.on('click', makeIdea);
+$submit.on('click', makeIdea);
 
   // constructor function for ideas:
 
@@ -34,27 +17,35 @@ $('.downvote-button').hover(function() {
   function makeIdea(event){
     event.preventDefault();
     var userIdea = new Idea($title.val(),$body.val());
-    var object = JSON.stringify(userIdea);
-    var key = JSON.stringify(Date.now());
-    localStorage.setItem(key, object); 
-    addIdeaToDom($title.val(),$body.val());
+    ideaArray.push(userIdea);
+    var stringifiedArray = JSON.stringify(ideaArray);
+    localStorage.setItem('key', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem("key");
+    console.log(arrayFromLocalStorage);
+    // addIdeaToDom($title.val(),$body.val());
+    // resetForm();
   }
 
   function addIdeaToDom(title, body) {
     var ideaInList = (`
         <div class="idea-title-header">
-            <h2>${title}</h2>
-            <img src="./images/delete.svg" alt="delete-button" class="delete-button">
+          <h2 contenteditable="true">${title}</h2>
+          <button alt="delete-button" class="delete-button idea-button"></button>
         </div>
-        <p>${body}</p>
+        <p contenteditable="true">${body}</p>
         <div class="voting-buttons">
-            <img src="./images/upvote.svg" alt="upvote-button" class="upvote-button">
-            <img src="./images/downvote.svg" alt="downvote-button" class="downvote-button">
-            <h3>quality: <span class="idea-rating">swill</span></h3>
+          <button class="idea-button upvote-button"></button>
+          <button class="idea-button downvote-button"></button>
+          <h3>quality: <span class="idea-rating">swill</span></h3>
         </div>
     `)
-    $('article').append(ideaInList);
+    $('article').prepend(ideaInList);
   }
+
+// function resetForm(event) {
+//   event.preventDefault();
+//   $('#title-input').reset();
+// }
 
   $('article').on('click', logSomething);
 

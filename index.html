@@ -23,16 +23,22 @@
       </form>
       <article>
         <div class="idea-title-header">
-          <h2>Example Idea 1</h2>
-          <img src="./images/delete.svg" alt="delete-button" class="delete-button">
+          <h2 contenteditable="true">Example Idea 1</h2>
+          <button alt="delete-button" class="delete-button idea-button"></button>
         </div>
-      <p>They make fake plants, why not fake trees? trees take forever to be cool but fake trees would be cool right away.</p>
-      <div class="voting-buttons">
+        <p contenteditable="true">They make fake plants, why not fake trees? trees take forever to be cool but fake trees would be cool right away.</p>
+        <div class="voting-buttons">
+          <button class="idea-button upvote-button"></button>
+          <button class="idea-button downvote-button"></button>
+          <h3>quality: <span class="idea-rating">swill</span></h3>
+      </div>
+      </article>
+      <!--       <div class="voting-buttons">
         <img src="./images/upvote.svg" alt="upvote-button" class="upvote-button">
         <img src="./images/downvote.svg" alt="downvote-button" class="downvote-button">
         <h3>quality: <span class="idea-rating">swill</span></h3>
       </div>
-      </article>
+      </article> -->
     </div>
   </section>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
