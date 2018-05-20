@@ -3,6 +3,9 @@ var $body = $('#body-input');
 var $submit = $('.submit-button');
 var ideaArray = [];
 var articleSection = $('article');
+$('article').on('click', '.delete-button', logSomething);
+$('article').on('click', '.upvote-button', logSomething);
+$('article').on('click', '.downvote-button', logSomething);
 
 $submit.on('click', makeIdea);
 
@@ -58,7 +61,7 @@ $submit.on('click', makeIdea);
 //   $('#title-input').reset();
 // }
 
-  $('article').on('click', logSomething);
+  // $('article').on('click', logSomething);
 
   function logSomething() {
       console.log('something');
