@@ -2,6 +2,7 @@ var $title = $('#title-input');
 var $body = $('#body-input');
 var $submit = $('.submit-button');
 var ideaArray = [];
+var articleSection = $('article');
 
 $submit.on('click', makeIdea);
 
@@ -22,24 +23,34 @@ $submit.on('click', makeIdea);
     localStorage.setItem('key', stringifiedArray);
     var arrayFromLocalStorage = localStorage.getItem("key");
     console.log(arrayFromLocalStorage);
+    var parsedIdeaList = jQuery.parseJSON(arrayFromLocalStorage);
+    // console.log(parsedIdeaList);
+    parsedIdeaList.forEach(function(element) {
+      console.log(element);
+      addIdeaToList(parsedIdeaList);
+    });
     // addIdeaToDom($title.val(),$body.val());
     // resetForm();
   }
 
-  function addIdeaToDom(title, body) {
-    var ideaInList = (`
-        <div class="idea-title-header">
-          <h2 contenteditable="true">${title}</h2>
-          <button alt="delete-button" class="delete-button idea-button"></button>
-        </div>
-        <p contenteditable="true">${body}</p>
-        <div class="voting-buttons">
-          <button class="idea-button upvote-button"></button>
-          <button class="idea-button downvote-button"></button>
-          <h3>quality: <span class="idea-rating">swill</span></h3>
-        </div>
-    `)
-    $('article').prepend(ideaInList);
+  function addIdeaToList(theArray) {
+    var ideaList = '';
+    for (var i = 0; i < theArray.length; i++) {
+      ideaList += (`
+      <div class="idea-title-header">
+        <h2 contenteditable="true">${theArray[i].title}</h2>
+        <button alt="delete-button" class="delete-button idea-button"></button>
+      </div>
+      <p contenteditable="true">${theArray[i]. body}</p>
+      <div class="voting-buttons">
+        <button class="idea-button upvote-button"></button>
+        <button class="idea-button downvote-button"></button>
+        <h3>quality: <span class="idea-rating">swill</span></h3>
+      </div>
+  `)
+    };
+    $('article').html(ideaList);
+    
   }
 
 // function resetForm(event) {
