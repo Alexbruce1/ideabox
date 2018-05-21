@@ -8,8 +8,8 @@ var thisObjId;
 var theArray;
 var idea;
 $('article').on('click', '.delete-button', deleteIdea);
-$('article').on('click', '.upvote-button', logSomething);
-$('article').on('click', '.downvote-button', logSomething);
+$('article').on('click', '.upvote-button', upvoteIdea);
+$('article').on('click', '.downvote-button', downvoteIdea);
 
 $submit.on('click', makeIdea);
 
@@ -67,8 +67,27 @@ $submit.on('click', makeIdea);
 
 
   function deleteIdea(){
-    console.log($(this).data("id"));
+    // console.log($(this).data("id"));
+    var thisObjectsDataID = $(this).data("id");
+    // console.log(thisObjectsDataID);
+    localStorage.removeItem(thisObjectsDataID);
+    // console.log(objectToDelete);
+    $(this).closest('article').remove('article');
   }
+
+  function upvoteIdea(){
+    // console.log($(this).data("id"));
+    var thisObjectsDataID = $(this).data("id");
+    console.log(thisObjectsDataID);
+  }
+
+   function downvoteIdea(){
+    // console.log($(this).data("id"));
+    var thisObjectsDataID = $(this).data("id");
+    console.log(thisObjectsDataID);
+  }
+
+
 
     // parsedIdeaList.forEach(function(element) {
     //    if (this.id === parsedIdeaList.id) {
