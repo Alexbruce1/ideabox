@@ -66,20 +66,23 @@ $submit.on('click', makeIdea);
   }
 
 
-  function deleteIdea(element){
-    parsedIdeaList.forEach(function(element) {
-       if (this.id === parsedIdeaList.id) {
-         console.log('yup');
-       }
-       else {
-         console.log('nope');
-       }
-    // var thisObjId = this.id;
-    // var foo = $.inArray(parseInt(thisObjId), ideaArray);
-    console.log(foo);
-    console.log(thisObjId);
-    console.log(ideaArray);
-  })};
+  function deleteIdea(){
+    console.log($(this).data("id"));
+  }
+
+    // parsedIdeaList.forEach(function(element) {
+    //    if (this.id === parsedIdeaList.id) {
+    //      console.log('yup');
+    //    }
+    //    else {
+    //      console.log('nope');
+    //    }
+    // // var thisObjId = this.id;
+    // // var foo = $.inArray(parseInt(thisObjId), ideaArray);
+    // console.log(foo);
+    // console.log(thisObjId);
+    // console.log(ideaArray);
+  
   // function deleteIdea() {
   //   var thisObjId = this.id;
   //   var theArray = parsedIdeaList.filter(thisObjId);
