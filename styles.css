@@ -75,7 +75,9 @@ input::placeholder {
     color: #00a79d;
 }
 
-input:focus {
+.input-title:focus,
+.input-body:focus,
+.search-bar:focus {
     background-color: #ccedeb;
     transition-duration: .5s;
 }
