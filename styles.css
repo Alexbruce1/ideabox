@@ -47,6 +47,30 @@ input {
     width: 100%;
 }
 
+/*textarea {
+    border: 1px solid #6d6e71;
+    color: #6d6e71;
+    display: block;
+    font-size: 26px; 
+    margin-top: 2rem;
+    padding: 0 5px;
+    width: 100%;
+}
+
+textarea::placeholder {
+    color: #00a79d;
+}
+
+textarea:focus {
+    background-color: #ccedeb;
+    transition-duration: .5s;
+}
+
+textarea.input-body {
+    position: absolute;
+    visibility: hidden;
+}*/
+
 input::placeholder {
     color: #00a79d;
 }
@@ -185,13 +209,23 @@ h3 {
         margin-top: 1rem;
     }
 
+/*    input.input-body {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    textarea.input-body {
+        position: static;
+        visibility: visible;
+    }*/
+
     .input-body {
         height: 9rem;
         line-height: 3rem;
     }
 
-    .input-body::placeholder {
-
+    .output-section {
+        margin-top: 42vh;
     }
 
 }

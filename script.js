@@ -1,5 +1,5 @@
 var $title = $('#title-input');
-var $body = $('#body-input');
+var $body = $('.input-body');
 var $submit = $('.submit-button');
 var ideaArray = [];
 var articleSection = $('article');
