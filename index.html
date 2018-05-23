@@ -9,58 +9,20 @@
 </head>
 <body>
   <main class="input-area">
-    <form class="main-form">
-        <h1 class="idea-logo">idea<span class="box-logo">box</span>
-        </h1>
-      <input type="text" class="input-title" placeholder="Title" id="title-input">
-      <!-- <input type="text" class="input-body" placeholder="Body"> -->
-      <textarea type="text" rows="1" class="input-body" placeholder="Body"></textarea>
+    <form class="main-form" aria-label="input form">
+      <h1 aria-label="page header" class="idea-logo">idea<span class="box-logo">box</span></h1>
+      <input aria-label="input title" type="text" class="input-title" placeholder="Title" id="title-input">
+      <textarea aria-label="input body" type="text" rows="1" class="input-body" placeholder="Body"></textarea>
       <input type="submit" class="submit-button" value="Save">
     </form>
   </main>
   <section class="output-section">
-    <div class="ideas-section">
+    <div class="ideas-section" role="card output section">
       <form>
-        <input type="search" class="search-bar" id="search" placeholder="Search">
+        <input type="search" aria-label="search ideas" class="search-bar" id="search" placeholder="Search">
       </form>
       <article>
-        <div class="idea-title-header">
-          <h2 contenteditable="true">Example Idea 1</h2>
-          <button alt="delete-button" class="delete-button idea-button"></button>
-        </div>
-        <p contenteditable="true">They make fake plants, why not fake trees? trees take forever to be cool but fake trees would be cool right away.</p>
-        <div class="voting-buttons">
-          <button class="idea-button upvote-button"></button>
-          <button class="idea-button downvote-button"></button>
-          <h3>quality: <span class="idea-rating">swill</span></h3>
-      </div>
-      <div class="idea-title-header">
-          <h2 contenteditable="true">Example Idea 1</h2>
-          <button alt="delete-button" class="delete-button idea-button"></button>
-        </div>
-        <p contenteditable="true">They make fake plants, why not fake trees? trees take forever to be cool but fake trees would be cool right away.</p>
-        <div class="voting-buttons">
-          <button class="idea-button upvote-button"></button>
-          <button class="idea-button downvote-button"></button>
-          <h3>quality: <span class="idea-rating">swill</span></h3>
-      </div>
-      <div class="idea-title-header">
-          <h2 contenteditable="true">Example Idea 1</h2>
-          <button alt="delete-button" class="delete-button idea-button"></button>
-        </div>
-        <p contenteditable="true">They make fake plants, why not fake trees? trees take forever to be cool but fake trees would be cool right away.</p>
-        <div class="voting-buttons">
-          <button class="idea-button upvote-button"></button>
-          <button class="idea-button downvote-button"></button>
-          <h3>quality: <span class="idea-rating">swill</span></h3>
-      </div>
       </article>
-      <!--       <div class="voting-buttons">
-        <img src="./images/upvote.svg" alt="upvote-button" class="upvote-button">
-        <img src="./images/downvote.svg" alt="downvote-button" class="downvote-button">
-        <h3>quality: <span class="idea-rating">swill</span></h3>
-      </div>
-      </article> -->
     </div>
   </section>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
