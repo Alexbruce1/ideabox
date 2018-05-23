@@ -23,10 +23,10 @@ $("#search").on("keyup", function() {
   $('p').each( function() {
       var s = $(this).text();
       if (s.indexOf(g)!=-1) {
-          $(this).show();
+          $(this).parent().show();
       }
       else {
-        $(this).hide();
+        $(this).parent().hide();
       }
   });
 })
@@ -45,6 +45,14 @@ $submit.on('click', makeIdea);
       this.id = Date.now();
   }
 
+  $(document).ready(function() {
+    if (localStorage.getItem('ideas') !== null) {
+      var arrayFromLocalStorage = localStorage.getItem('ideas');
+      var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+      addIdeaToDom(parsedArray);
+}});
+
+
   function makeIdea(event){
     if (localStorage.getItem('ideas') === null) {
     event.preventDefault();
@@ -55,7 +63,7 @@ $submit.on('click', makeIdea);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     addIdeaToDom(parsedArray);
-    } else if (localStorage.getItem('ideas') !== null)
+    } else if (localStorage.getItem('ideas') !== null) {
     event.preventDefault();
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
@@ -66,6 +74,7 @@ $submit.on('click', makeIdea);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     addIdeaToDom(parsedArray);
+    }
   };
 
     function addIdeaToDom(parsedArray){
