@@ -12,14 +12,12 @@ var thisObjId;
 var theArray;
 var idea;
 var newArray;
+
 $('article').on('click', '.delete-button', deleteIdea);
 $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
 $('article').on('focusout', 'h2', changeTitleContent);
 $('article').on('focusout', 'p', changeBodyContent);
-$(window).on( 'load', recreateSavedCards);
-
-
 
 function changeTitleContent() {
   var thisObjectsDataID = $(this).data("id");
