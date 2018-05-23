@@ -14,12 +14,6 @@ $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
 $(window).on( 'load', recreateSavedCards);
 
-function clearForm() {
-  $('.main-form').each(function() {
-    this.reset();
-  })
-}
-
 
 function recreateSavedCards() {
   for (var i = localStorage.length - 1; i >= 0; i--) {
@@ -42,6 +36,12 @@ function Idea(title,body,id) {
       this.upvoteId = ("upvote" + Date.now());
       this.downvoteId = ("downvote" + Date.now());
   }
+
+function clearForm() {
+  $('.main-form').each(function() {
+    this.reset();
+  });
+}
 
 function makeIdea(event){
   event.preventDefault();
