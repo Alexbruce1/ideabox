@@ -1,20 +1,21 @@
 var $title = $('#title-input');
 var $body = $('#body-input');
 var $submit = $('.submit-button');
+var articleSection = $('article');
 var ideaArray = [];
 var blankArray =[];
-var articleSection = $('article');
 var parsedIdeaList;
+var parsedArray;
+var parsedArray2;
 var thisObjId;
 var theArray;
 var idea;
+var newArray;
 $('article').on('click', '.delete-button', deleteIdea);
 $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
 
 $submit.on('click', makeIdea);
-
-  // constructor function for ideas:
 
   function Idea(title,body,id) {
       this.title = title;
@@ -26,17 +27,12 @@ $submit.on('click', makeIdea);
 
   function makeIdea(event){
     event.preventDefault();
-    //using the constructor function to create a new object
     var userIdea = new Idea($title.val(),$body.val());
     ideaArray.push(userIdea);
     var stringifiedArray = JSON.stringify(ideaArray);
-    // set that stringified object into local storage with a key set from the date.now method.
     localStorage.setItem('ideas', stringifiedArray);
-    //as soon as we put that item into local storage we get it back
     var arrayFromLocalStorage = localStorage.getItem('ideas');
-    //and then we parse it from the json string into js
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    //and now we want to take that object and post it to the dom
     addIdeaToDom(parsedArray);
     };
 
@@ -56,7 +52,6 @@ $submit.on('click', makeIdea);
         <h3>quality: <span class="idea-rating">${object.quality}</span></h3>
       </div>
       `)
-      // console.log(idea);
       $('article').prepend(idea);
     
   })};
@@ -66,10 +61,7 @@ $submit.on('click', makeIdea);
   };
 
   function deleteIdea(){
-    // console.log($(this).data("id"));
     var thisObjectsDataID = $(this).data("id");
-    // console.log(thisObjectsDataID);
-
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     var newArray = parsedArray.filter(function(obj){
@@ -78,78 +70,49 @@ $submit.on('click', makeIdea);
       return obj.id !== thisObjectsDataID
     });
     var newStringifiedArray = JSON.stringify(newArray);
-    // set that stringified object into local storage with a key set from the date.now method.
     localStorage.setItem('ideas', newStringifiedArray);
-    //as soon as we put that item into local storage we get it back
     var arrayFromLocalStorage = localStorage.getItem('ideas');
-    //and then we parse it from the json string into js
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    //and now we want to take that object and post it to the dom
     addIdeaToDom(blankArray);
     addIdeaToDom(parsedArray);
-    // console.log(thisObjectsDataID);
-    // console.log(newArray);
-    // $(this).closest('article').remove('article');
   }
 
   function upvoteIdea(){
-    // console.log($(this).data("id"));
     var thisObjectsDataID = $(this).data("id");
-    // console.log(thisObjectsDataID);
-
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var newArray = parsedArray.map(
-      if (this.id === thisObjectsDataID){
-        if (this.quality === 'Swill'){
-          this.quality = "Plausible";
-      } else if (this.quality === 'Plausible'){
-        this.quality = "Genius";
-      // return obj.id !== thisObjectsDataID
+    var parsedArray2 = parsedArray;
+    var newArray = parsedArray.map(function(obj, i) {
+      if (obj.id === thisObjectsDataID && obj.quality === "Swill"){
+        obj.quality = "Plausible";
+      } else if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
+        obj.quality = "Genius";
+      }})
+    debugger
+    var ideaArray = parsedArray2;
+    var stringifiedArray = JSON.stringify(parsedArray2);
+    localStorage.setItem('ideas', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
     }
-    console.log(newArray);
-  );
-
-    console.log(thisObjectsDataID);
-
-    //get this item from local storage. 
-    var ideaToUpvote = jQuery.parseJSON(localStorage.getItem(thisObjectsDataID));
-    if (ideaToUpvote.quality === 'Swill'){
-      ideaToUpvote.quality = 'Plausible';
-      $(this).closest('span').val('Plausible');
-      //restringify this object and put it back into local storage
-      // $(this).child('.idea-rating').val('Plausible');
-      $()
-    } else if ( ideaToUpvote.quality === 'Plausible' ){
-    ideaToUpvote.quality = 'Genius';
-    $(this).closest('.idea-rating').val('Plausible');
-    }
-    console.log(ideaToUpvote);
-    //change the value of the objects quality.
-      // if the quality is at genius dont change
-      // if the quality is at plausible => genius.
-      // if the quality is at swill => plausible. 
-
-    // add changed object back to local storage.
-    
-    // make the change in the dom to that object.
-
-  
-  }
 
    function downvoteIdea(){
-    // console.log($(this).data("id"));
     var thisObjectsDataID = $(this).data("id");
-    console.log(thisObjectsDataID);
-        //get this item from local storage. 
-
-    //change the value of its quality.
-      // if the quality is at swill dont change
-      // if the quality is at plausible => swill.
-      // if the quality is at genius => plausible. 
-    //
-
-    // add changed object back to local storage.
-    
-    // make the change in the dom to that object.
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    var parsedArray2 = parsedArray;
+    var newArray = parsedArray.map(function(obj, i) {
+      if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
+        obj.quality = "Swill";
+      } else if (obj.id === thisObjectsDataID && obj.quality === "Genius"){
+        obj.quality = "Plausible";
+      }})
+    debugger
+    var ideaArray = parsedArray2;
+    var stringifiedArray = JSON.stringify(parsedArray2);
+    localStorage.setItem('ideas', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
   };
