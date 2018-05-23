@@ -182,6 +182,7 @@ h3 {
     color: #6d6e71;
     font-family: 'Roboto Slab', serif;
     font-size: 22px;
+    margin-left: 2vw;
 }
 
 @media screen and (max-width: 900px) {
