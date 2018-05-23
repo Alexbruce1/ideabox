@@ -1,5 +1,5 @@
 var $title = $('#title-input');
-var $body = $('#body-input');
+var $body = $('.input-body');
 var $submit = $('.submit-button');
 var articleSection = $('article');
 var $searchValue;
@@ -17,6 +17,9 @@ $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
 $('article').on('focusout', 'h2', changeTitleContent);
 $('article').on('focusout', 'p', changeBodyContent);
+$(window).on( 'load', recreateSavedCards);
+
+
 
 function changeTitleContent() {
   var thisObjectsDataID = $(this).data("id");
@@ -72,12 +75,14 @@ console.log('something');
 
 $submit.on('click', makeIdea);
 
-  function Idea(title,body,id) {
+function Idea(title,body,id) {
       this.title = title;
       this.body = body;
       this.qualVal = 0;
       this.quality = 'Swill';
       this.id = Date.now();
+      this.upvoteId = ("upvote" + Date.now());
+      this.downvoteId = ("downvote" + Date.now());
   }
 
   $(document).ready(function() {
@@ -118,14 +123,15 @@ $submit.on('click', makeIdea);
       $('article').html('');
       parsedArray.forEach(function(object){
       var idea = (`
+
       <div class="idea-title-header">
         <h2 contenteditable="true" class="title">${object.title}</h2>
         <button alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
       </div>
       <p contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
       <div class="voting-buttons">
-        <button class="idea-button upvote-button" data-id="${object.id}"></button>
-        <button class="idea-button downvote-button" data-id="${object.id}"></button>
+        <button class="idea-button upvote-button" data-id="${object.upvoteId}"></button>
+        <button class="idea-button downvote-button" data-id="${object.downvoteId}"></button>
         <h3>quality: <span class="idea-rating">${object.quality}</span></h3>
       </div>
       `)
