@@ -47,13 +47,15 @@ input {
     width: 100%;
 }
 
-/*textarea {
+textarea {
     border: 1px solid #6d6e71;
     color: #6d6e71;
     display: block;
     font-size: 26px; 
+    height: 15%;
     margin-top: 2rem;
     padding: 0 5px;
+    resize: none;
     width: 100%;
 }
 
@@ -65,11 +67,6 @@ textarea:focus {
     background-color: #ccedeb;
     transition-duration: .5s;
 }
-
-textarea.input-body {
-    position: absolute;
-    visibility: hidden;
-}*/
 
 input::placeholder {
     color: #00a79d;
