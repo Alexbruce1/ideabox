@@ -47,13 +47,15 @@ input {
     width: 100%;
 }
 
-/*textarea {
+textarea {
     border: 1px solid #6d6e71;
     color: #6d6e71;
     display: block;
     font-size: 26px; 
+    height: 15%;
     margin-top: 2rem;
     padding: 0 5px;
+    resize: none;
     width: 100%;
 }
 
@@ -65,11 +67,6 @@ textarea:focus {
     background-color: #ccedeb;
     transition-duration: .5s;
 }
-
-textarea.input-body {
-    position: absolute;
-    visibility: hidden;
-}*/
 
 input::placeholder {
     color: #00a79d;
@@ -111,6 +108,7 @@ section {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    overflow-x: hidden;
 }
 
 input#search {
@@ -123,13 +121,16 @@ article {
     padding: 5% 0;
 }
 
-h2 {
+.title {
     color: #6d6e71;
     font-family: 'Roboto Slab', serif;
     font-size: 26px;
     font-weight:bold;
     margin-bottom: 1em;
     padding-top: 25px;
+    width: calc(100% - 50px);
+    line-height: X;
+    max-height: X*N;
 }
 
 .delete-button {
@@ -156,7 +157,7 @@ p {
     background-color: transparent;
     border: none;
     height: 40px;
-    margin: 20px 30px 10px 0;
+    margin: 20px 0 10px 0;
     outline: none;
     width: 40px;
 }
@@ -202,6 +203,10 @@ h3 {
 }
 
 @media screen and (max-width: 580px) {
+    .main-form {
+        width: 90vw;
+    }
+ 
     .idea-logo {
         font-size: 3rem;
         margin: .5rem;
@@ -211,16 +216,6 @@ h3 {
         margin-top: 1rem;
     }
 
-/*    input.input-body {
-        position: absolute;
-        visibility: hidden;
-    }
-
-    textarea.input-body {
-        position: static;
-        visibility: visible;
-    }*/
-
     .input-body {
         height: 9rem;
         line-height: 3rem;
@@ -228,6 +223,12 @@ h3 {
 
     .output-section {
         margin-top: 42vh;
+        padding: 0;
+        width: 100vw;
+    }
+
+    .ideas-section {
+        width: 90vw;
     }
 
 }

@@ -20,6 +20,7 @@ $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
 $('article').on('focusout', 'h2', changeTitleContent);
 $('article').on('focusout', 'p', changeBodyContent);
+$submit.on('click', makeIdea);
 
 function changeTitleContent() {
   var thisObjectsDataID = $(this).data("id");
@@ -31,7 +32,8 @@ function changeTitleContent() {
   var newArray = parsedArray.map(function(obj) {
     if (obj.id === thisObjectsDataID){
       obj.title = newContent;
-    }})
+    }
+  })
   var stringifiedArray = JSON.stringify(ideaArray);
   localStorage.setItem('ideas', stringifiedArray);
   var arrayFromLocalStorage = localStorage.getItem('ideas');
@@ -57,24 +59,17 @@ function changeBodyContent() {
   addIdeaToDom(parsedArray);
 }
 
-// $('#search').on('keyup', function() {
-//   var g = $(this).val().toLowerCase();
-//   $('.title').each( function() {
-//       var s = $(this).text().toLowerCase();
-//       if (s.indexOf(g) != -1 ) {
-//           $(this).closest('article').show();
-//       }
-//       else {
-//         $(this).closest('article').hide();
-//       }
-//   });
-// })
-
-function logSomething() {
-console.log('something');
-}
-
-$submit.on('click', makeIdea);
+$('#search').on('keyup', function() {
+  var g = $(this).val().toLowerCase();
+  $('.title').each( function() {
+      var s = $(this).text().toLowerCase();
+      if (s.indexOf(g) != -1 ) {
+          $(this).closest('article').show();
+      } else {
+        $(this).closest('article').hide();
+      }
+  });
+})
 
 function Idea(title,body,id) {
       this.title = title;
@@ -84,7 +79,7 @@ function Idea(title,body,id) {
       this.id = Date.now();
   }
 
-  $(document).ready(function() {
+$(document).ready(function() {
     if (localStorage.getItem('ideas') !== null) {
       var arrayFromLocalStorage = localStorage.getItem('ideas');
       var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
@@ -123,11 +118,37 @@ function Idea(title,body,id) {
 //     console.log(srch);
 //   }
 
-    function addIdeaToDom(parsedArray){
-      $('article').html('');
-      parsedArray.forEach(function(object){
-      var idea = (`
 
+function makeIdea(event) {
+  if (localStorage.getItem('ideas') === null) {
+  event.preventDefault();
+  var userIdea = new Idea($title.val(),$body.val());
+  ideaArray.push(userIdea);
+  var stringifiedArray = JSON.stringify(ideaArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
+  } else if (localStorage.getItem('ideas') !== null) {
+  event.preventDefault();
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var userIdea = new Idea($title.val(),$body.val());
+  parsedArray.push(userIdea);
+  var stringifiedArray = JSON.stringify(parsedArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
+  $title.val('');
+  $body.val('');
+  }
+};
+
+function addIdeaToDom(parsedArray) {
+  $('article').html('');
+  parsedArray.forEach(function(object) {
+  var idea = (`
       <div class="idea-title-header">
         <h2 contenteditable="true" data-id="${object.id}" class="title">${object.title}</h2>
         <button alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
@@ -140,56 +161,57 @@ function Idea(title,body,id) {
       </div>
       `)
       $('article').prepend(idea);
-    
   })};
 
-  function deleteIdea(){
-    var thisObjectsDataID = $(this).data("id");
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var newArray = parsedArray.filter(function(obj){
-      return obj.id !== thisObjectsDataID
-    });
-    var newStringifiedArray = JSON.stringify(newArray);
-    localStorage.setItem('ideas', newStringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(blankArray);
-    addIdeaToDom(parsedArray);
+function deleteIdea() {
+  var thisObjectsDataID = $(this).data("id");
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var newArray = parsedArray.filter(function(obj){
+    return obj.id !== thisObjectsDataID
+  });
+  var newStringifiedArray = JSON.stringify(newArray);
+  localStorage.setItem('ideas', newStringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(blankArray);
+  addIdeaToDom(parsedArray);
+}
+
+function upvoteIdea() {
+  var thisObjectsDataID = $(this).data("id");
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var ideaArray = parsedArray;
+  var newArray = parsedArray.map(function(obj, i) {
+    if (obj.id === thisObjectsDataID && obj.quality === "Swill"){
+      obj.quality = "Plausible";
+    } else if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
+      obj.quality = "Genius";
+    }
+  })
+  var stringifiedArray = JSON.stringify(ideaArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
   }
 
-  function upvoteIdea(){
-    var thisObjectsDataID = $(this).data("id");
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var ideaArray = parsedArray;
-    var newArray = parsedArray.map(function(obj, i) {
-      if (obj.id === thisObjectsDataID && obj.quality === "Swill"){
-        obj.quality = "Plausible";
-      } else if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
-        obj.quality = "Genius";
-      }})
-    var stringifiedArray = JSON.stringify(ideaArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
+ function downvoteIdea() {
+  var thisObjectsDataID = $(this).data("id");
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var ideaArray = parsedArray
+  var newArray = parsedArray.map(function(obj, i) {
+    if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
+      obj.quality = "Swill";
+    } else if (obj.id === thisObjectsDataID && obj.quality === "Genius"){
+      obj.quality = "Plausible";
     }
-
-   function downvoteIdea(){
-    var thisObjectsDataID = $(this).data("id");
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var ideaArray = parsedArray
-    var newArray = parsedArray.map(function(obj, i) {
-      if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
-        obj.quality = "Swill";
-      } else if (obj.id === thisObjectsDataID && obj.quality === "Genius"){
-        obj.quality = "Plausible";
-      }})
-    var stringifiedArray = JSON.stringify(ideaArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-  };
+  })
+  var stringifiedArray = JSON.stringify(ideaArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
+};
