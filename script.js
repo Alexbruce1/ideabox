@@ -9,9 +9,11 @@ var parsedIdeaList;
 var parsedArray;
 var parsedArray2;
 var thisObjId;
+var thisObjectsDataID;
 var theArray;
 var idea;
 var newArray;
+var newContent;
 
 $('article').on('click', '.delete-button', deleteIdea);
 $('article').on('click', '.upvote-button', upvoteIdea);
@@ -22,10 +24,11 @@ $('article').on('focusout', 'p', changeBodyContent);
 function changeTitleContent() {
   var thisObjectsDataID = $(this).data("id");
   var newContent = $(this).text();
+  console.log(newContent);
   var arrayFromLocalStorage = localStorage.getItem('ideas');
   var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
   var ideaArray = parsedArray;
-  var newArray = parsedArray.map(function(obj, i) {
+  var newArray = parsedArray.map(function(obj) {
     if (obj.id === thisObjectsDataID){
       obj.title = newContent;
     }})
@@ -43,7 +46,7 @@ function changeBodyContent() {
   var arrayFromLocalStorage = localStorage.getItem('ideas');
   var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
   var ideaArray = parsedArray;
-  var newArray = parsedArray.map(function(obj, i) {
+  var newArray = parsedArray.map(function(obj) {
     if (obj.id === thisObjectsDataID){
       obj.body = newContent;
     }})
@@ -54,18 +57,18 @@ function changeBodyContent() {
   addIdeaToDom(parsedArray);
 }
 
-$('#search').on('keyup', function() {
-  var g = $(this).val().toLowerCase();
-  $('.title').each( function() {
-      var s = $(this).text().toLowerCase();
-      if (s.indexOf(g) != -1 ) {
-          $(this).closest('article').show();
-      }
-      else {
-        $(this).closest('article').hide();
-      }
-  });
-})
+// $('#search').on('keyup', function() {
+//   var g = $(this).val().toLowerCase();
+//   $('.title').each( function() {
+//       var s = $(this).text().toLowerCase();
+//       if (s.indexOf(g) != -1 ) {
+//           $(this).closest('article').show();
+//       }
+//       else {
+//         $(this).closest('article').hide();
+//       }
+//   });
+// })
 
 function logSomething() {
 console.log('something');
@@ -90,30 +93,35 @@ function Idea(title,body,id) {
 
 
   function makeIdea(event){
-    if (localStorage.getItem('ideas') === null) {
-    event.preventDefault();
-    var userIdea = new Idea($title.val(),$body.val());
-    ideaArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(ideaArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-    } else if (localStorage.getItem('ideas') !== null) {
-    event.preventDefault();
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var userIdea = new Idea($title.val(),$body.val());
-    parsedArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(parsedArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-    $title.val('');
-    $body.val('');
-    }
-  };
+      if (localStorage.getItem('ideas') === null) {
+        event.preventDefault();
+        var userIdea = new Idea($title.val(),$body.val());
+        ideaArray.push(userIdea);
+        var stringifiedArray = JSON.stringify(ideaArray);
+        localStorage.setItem('ideas', stringifiedArray);
+        var arrayFromLocalStorage = localStorage.getItem('ideas');
+        var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+        addIdeaToDom(parsedArray);
+      } else if (localStorage.getItem('ideas') !== null) {
+        event.preventDefault();
+        var arrayFromLocalStorage = localStorage.getItem('ideas');
+        var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+        var userIdea = new Idea($title.val(),$body.val());
+        parsedArray.push(userIdea);
+        var stringifiedArray = JSON.stringify(parsedArray);
+        localStorage.setItem('ideas', stringifiedArray);
+        var arrayFromLocalStorage = localStorage.getItem('ideas');
+        var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+        addIdeaToDom(parsedArray);
+        $title.val('');
+        $body.val('');
+      }};
+
+// $('#search').on('keyup', searchInput);
+//   function searchInput() {
+//     var srch = $('#search').val();
+//     console.log(srch);
+//   }
 
     function addIdeaToDom(parsedArray){
       $('article').html('');
@@ -121,7 +129,7 @@ function Idea(title,body,id) {
       var idea = (`
 
       <div class="idea-title-header">
-        <h2 contenteditable="true" class="title">${object.title}</h2>
+        <h2 contenteditable="true" data-id="${object.id}" class="title">${object.title}</h2>
         <button alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
       </div>
       <p contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
