@@ -2,6 +2,7 @@ var $title = $('#title-input');
 var $body = $('#body-input');
 var $submit = $('.submit-button');
 var articleSection = $('article');
+var $searchValue;
 var ideaArray = [];
 var blankArray =[];
 var parsedIdeaList;
@@ -14,6 +15,25 @@ var newArray;
 $('article').on('click', '.delete-button', deleteIdea);
 $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
+$('article').on('focusout', 'h2', logSomething);
+$('article').on('focusout', 'p', logSomething);
+
+$("#search").on("keyup", function() {
+  var g = $(this).val();
+  $('p').each( function() {
+      var s = $(this).text();
+      if (s.indexOf(g)!=-1) {
+          $(this).show();
+      }
+      else {
+        $(this).hide();
+      }
+  });
+})
+
+function logSomething() {
+console.log('something');
+}
 
 $submit.on('click', makeIdea);
 
@@ -49,7 +69,6 @@ $submit.on('click', makeIdea);
   };
 
     function addIdeaToDom(parsedArray){
-      console.log(parsedArray);
       $('article').html('');
       parsedArray.forEach(function(object){
       var idea = (`
@@ -94,7 +113,6 @@ $submit.on('click', makeIdea);
       } else if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
         obj.quality = "Genius";
       }})
-    // var ideaArray = parsedArray2;
     var stringifiedArray = JSON.stringify(ideaArray);
     localStorage.setItem('ideas', stringifiedArray);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
@@ -106,7 +124,6 @@ $submit.on('click', makeIdea);
     var thisObjectsDataID = $(this).data("id");
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    // var parsedArray2 = parsedArray;
     var ideaArray = parsedArray
     var newArray = parsedArray.map(function(obj, i) {
       if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
@@ -114,7 +131,6 @@ $submit.on('click', makeIdea);
       } else if (obj.id === thisObjectsDataID && obj.quality === "Genius"){
         obj.quality = "Plausible";
       }})
-    // var ideaArray = parsedArray2;
     var stringifiedArray = JSON.stringify(ideaArray);
     localStorage.setItem('ideas', stringifiedArray);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
