@@ -26,6 +26,7 @@ $submit.on('click', makeIdea);
   }
 
   function makeIdea(event){
+    if (localStorage.getItem('ideas') === null) {
     event.preventDefault();
     var userIdea = new Idea($title.val(),$body.val());
     ideaArray.push(userIdea);
@@ -34,10 +35,21 @@ $submit.on('click', makeIdea);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     addIdeaToDom(parsedArray);
-    };
+    } else if (localStorage.getItem('ideas') !== null)
+    event.preventDefault();
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    var userIdea = new Idea($title.val(),$body.val());
+    parsedArray.push(userIdea);
+    var stringifiedArray = JSON.stringify(parsedArray);
+    localStorage.setItem('ideas', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
+  };
 
     function addIdeaToDom(parsedArray){
-      // console.log(object.title);
+      console.log(parsedArray);
       $('article').html('');
       parsedArray.forEach(function(object){
       var idea = (`
@@ -56,17 +68,11 @@ $submit.on('click', makeIdea);
     
   })};
 
-  function logSomething() {
-    console.log('something');
-  };
-
   function deleteIdea(){
     var thisObjectsDataID = $(this).data("id");
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     var newArray = parsedArray.filter(function(obj){
-      console.log(parsedArray);
-      console.log(obj.id);
       return obj.id !== thisObjectsDataID
     });
     var newStringifiedArray = JSON.stringify(newArray);
@@ -81,16 +87,15 @@ $submit.on('click', makeIdea);
     var thisObjectsDataID = $(this).data("id");
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var parsedArray2 = parsedArray;
+    var ideaArray = parsedArray;
     var newArray = parsedArray.map(function(obj, i) {
       if (obj.id === thisObjectsDataID && obj.quality === "Swill"){
         obj.quality = "Plausible";
       } else if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
         obj.quality = "Genius";
       }})
-    debugger
-    var ideaArray = parsedArray2;
-    var stringifiedArray = JSON.stringify(parsedArray2);
+    // var ideaArray = parsedArray2;
+    var stringifiedArray = JSON.stringify(ideaArray);
     localStorage.setItem('ideas', stringifiedArray);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
@@ -101,16 +106,16 @@ $submit.on('click', makeIdea);
     var thisObjectsDataID = $(this).data("id");
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var parsedArray2 = parsedArray;
+    // var parsedArray2 = parsedArray;
+    var ideaArray = parsedArray
     var newArray = parsedArray.map(function(obj, i) {
       if (obj.id === thisObjectsDataID && obj.quality === "Plausible"){
         obj.quality = "Swill";
       } else if (obj.id === thisObjectsDataID && obj.quality === "Genius"){
         obj.quality = "Plausible";
       }})
-    debugger
-    var ideaArray = parsedArray2;
-    var stringifiedArray = JSON.stringify(parsedArray2);
+    // var ideaArray = parsedArray2;
+    var stringifiedArray = JSON.stringify(ideaArray);
     localStorage.setItem('ideas', stringifiedArray);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
