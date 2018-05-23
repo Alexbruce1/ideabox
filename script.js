@@ -109,6 +109,8 @@ $submit.on('click', makeIdea);
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
     addIdeaToDom(parsedArray);
+    $title.val('');
+    $body.val('');
     }
   };
 
