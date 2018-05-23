@@ -15,18 +15,53 @@ var newArray;
 $('article').on('click', '.delete-button', deleteIdea);
 $('article').on('click', '.upvote-button', upvoteIdea);
 $('article').on('click', '.downvote-button', downvoteIdea);
-$('article').on('focusout', 'h2', logSomething);
-$('article').on('focusout', 'p', logSomething);
+$('article').on('focusout', 'h2', changeTitleContent);
+$('article').on('focusout', 'p', changeBodyContent);
 
-$("#search").on("keyup", function() {
-  var g = $(this).val();
-  $('p').each( function() {
-      var s = $(this).text();
-      if (s.indexOf(g)!=-1) {
-          $(this).parent().show();
+function changeTitleContent() {
+  var thisObjectsDataID = $(this).data("id");
+  var newContent = $(this).text();
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var ideaArray = parsedArray;
+  var newArray = parsedArray.map(function(obj, i) {
+    if (obj.id === thisObjectsDataID){
+      obj.title = newContent;
+    }})
+  var stringifiedArray = JSON.stringify(ideaArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
+}
+
+function changeBodyContent() {
+  var thisObjectsDataID = $(this).data("id");
+  var newContent = $(this).text();
+  console.log(newContent);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  var ideaArray = parsedArray;
+  var newArray = parsedArray.map(function(obj, i) {
+    if (obj.id === thisObjectsDataID){
+      obj.body = newContent;
+    }})
+  var stringifiedArray = JSON.stringify(ideaArray);
+  localStorage.setItem('ideas', stringifiedArray);
+  var arrayFromLocalStorage = localStorage.getItem('ideas');
+  var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+  addIdeaToDom(parsedArray);
+}
+
+$('#search').on('keyup', function() {
+  var g = $(this).val().toLowerCase();
+  $('.title').each( function() {
+      var s = $(this).text().toLowerCase();
+      if (s.indexOf(g) != -1 ) {
+          $(this).closest('article').show();
       }
       else {
-        $(this).parent().hide();
+        $(this).closest('article').hide();
       }
   });
 })
@@ -82,10 +117,10 @@ $submit.on('click', makeIdea);
       parsedArray.forEach(function(object){
       var idea = (`
       <div class="idea-title-header">
-        <h2 contenteditable="true">${object.title}</h2>
+        <h2 contenteditable="true" class="title">${object.title}</h2>
         <button alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
       </div>
-      <p contenteditable="true" data-id="${object.id}">${object.body}</p>
+      <p contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
       <div class="voting-buttons">
         <button class="idea-button upvote-button" data-id="${object.id}"></button>
         <button class="idea-button downvote-button" data-id="${object.id}"></button>
