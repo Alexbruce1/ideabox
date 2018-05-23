@@ -79,8 +79,6 @@ function Idea(title,body,id) {
       this.qualVal = 0;
       this.quality = 'Swill';
       this.id = Date.now();
-      this.upvoteId = ("upvote" + Date.now());
-      this.downvoteId = ("downvote" + Date.now());
   }
 
   $(document).ready(function() {
@@ -128,8 +126,8 @@ function Idea(title,body,id) {
       </div>
       <p contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
       <div class="voting-buttons">
-        <button class="idea-button upvote-button" data-id="${object.upvoteId}"></button>
-        <button class="idea-button downvote-button" data-id="${object.downvoteId}"></button>
+        <button class="idea-button upvote-button" data-id="${object.id}"></button>
+        <button class="idea-button downvote-button" data-id="${object.id}"></button>
         <h3>quality: <span class="idea-rating">${object.quality}</span></h3>
       </div>
       `)
