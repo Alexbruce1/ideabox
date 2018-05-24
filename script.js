@@ -22,6 +22,77 @@ $('article').on('focusout', 'h2', changeTitleContent);
 $('article').on('focusout', 'p', changeBodyContent);
 $submit.on('click', makeIdea);
 
+$(document).ready(function() {
+  if (localStorage.getItem('ideas') !== null) {
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
+  }});
+
+function Idea(title,body,id) {
+  this.title = title;
+  this.body = body;
+  this.qualVal = 0;
+  this.quality = 'Swill';
+  this.id = Date.now();
+}
+
+function makeIdea(event){
+  if (localStorage.getItem('ideas') === null) {
+    event.preventDefault();
+    var userIdea = new Idea($title.val(),$body.val());
+    ideaArray.push(userIdea);
+    var stringifiedArray = JSON.stringify(ideaArray);
+    localStorage.setItem('ideas', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
+  } else if (localStorage.getItem('ideas') !== null) {
+    event.preventDefault();
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    var userIdea = new Idea($title.val(),$body.val());
+    parsedArray.push(userIdea);
+    var stringifiedArray = JSON.stringify(parsedArray);
+    localStorage.setItem('ideas', stringifiedArray);
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    addIdeaToDom(parsedArray);
+    $title.val('');
+    $body.val('');
+  }};
+
+function addIdeaToDom(parsedArray) {
+  $('article').html('');
+  parsedArray.forEach(function(object) {
+    var idea = (`
+      <div role="idea header" class="idea-title-header">
+      <h2 contenteditable="true" data-id="${object.id}" class="title">${object.title}</h2>
+      <button aria-label="delete idea" alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
+      </div>
+      <p aria-label="idea body" contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
+      <div class="voting-buttons">
+      <button aria-label="idea upvote button" class="idea-button upvote-button" data-id="${object.id}"></button>
+      <button aria-label="idea downvote button" class="idea-button downvote-button" data-id="${object.id}"></button>
+      <h3>quality: <span aria-label="idea quality" class="idea-rating">${object.quality}</span></h3>
+      </div>
+      `)
+    $('article').prepend(idea);
+  })};
+
+  $('#search').on('keyup', searchInput);
+    function searchInput() {
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    var srch = $('#search').val();
+    var regex = new RegExp(srch, 'ig');
+    var titleSearchResults = parsedArray.filter(object => object.title.match(regex));
+    var bodySearchResults = parsedArray.filter(object => object.title.match(regex));
+    var mergedArray = $.merge(titleSearchResults, bodySearchResults);
+    var resultsArray = $.uniqueSort(mergedArray);
+    addIdeaToDom(resultsArray);
+  }
+
 function changeTitleContent() {
   var thisObjectsDataID = $(this).data("id");
   var newContent = $(this).text();
@@ -58,104 +129,6 @@ function changeBodyContent() {
   var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
   addIdeaToDom(parsedArray);
 }
-
-function Idea(title,body,id) {
-  this.title = title;
-  this.body = body;
-  this.qualVal = 0;
-  this.quality = 'Swill';
-  this.id = Date.now();
-}
-
-$(document).ready(function() {
-  if (localStorage.getItem('ideas') !== null) {
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-  }});
-
-
-function makeIdea(event){
-  if (localStorage.getItem('ideas') === null) {
-    event.preventDefault();
-    var userIdea = new Idea($title.val(),$body.val());
-    ideaArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(ideaArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-  } else if (localStorage.getItem('ideas') !== null) {
-    event.preventDefault();
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var userIdea = new Idea($title.val(),$body.val());
-    parsedArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(parsedArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-    $title.val('');
-    $body.val('');
-  }};
-
-  $('#search').on('keyup', searchInput);
-    function searchInput() {
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var srch = $('#search').val();
-    var regex = new RegExp(srch, 'ig');
-    var titleSearchResults = parsedArray.filter(object => object.title.match(regex));
-    var bodySearchResults = parsedArray.filter(object => object.title.match(regex));
-    var mergedArray = $.merge(titleSearchResults, bodySearchResults);
-    var resultsArray = $.uniqueSort(mergedArray);
-    addIdeaToDom(resultsArray);
-  }
-
-function makeIdea(event) {
-  if (localStorage.getItem('ideas') === null) {
-    event.preventDefault();
-    var userIdea = new Idea($title.val(),$body.val());
-    ideaArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(ideaArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-  } else if (localStorage.getItem('ideas') !== null) {
-    event.preventDefault();
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    var userIdea = new Idea($title.val(),$body.val());
-    parsedArray.push(userIdea);
-    var stringifiedArray = JSON.stringify(parsedArray);
-    localStorage.setItem('ideas', stringifiedArray);
-    var arrayFromLocalStorage = localStorage.getItem('ideas');
-    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    addIdeaToDom(parsedArray);
-    $title.val('');
-    $body.val('');
-  }
-};
-
-function addIdeaToDom(parsedArray) {
-  $('article').html('');
-  parsedArray.forEach(function(object) {
-    var idea = (`
-      <div role="idea header" class="idea-title-header">
-      <h2 contenteditable="true" data-id="${object.id}" class="title">${object.title}</h2>
-      <button aria-label="delete idea" alt="delete-button" class="delete-button idea-button" data-id="${object.id}"></button>
-      </div>
-      <p aria-label="idea body" contenteditable="true" data-id="${object.id}" class="body">${object.body}</p>
-      <div class="voting-buttons">
-      <button aria-label="idea upvote button" class="idea-button upvote-button" data-id="${object.id}"></button>
-      <button aria-label="idea downvote button" class="idea-button downvote-button" data-id="${object.id}"></button>
-      <h3>quality: <span aria-label="idea quality" class="idea-rating">${object.quality}</span></h3>
-      </div>
-      `)
-    $('article').prepend(idea);
-  })};
 
   function deleteIdea() {
     var thisObjectsDataID = $(this).data("id");
