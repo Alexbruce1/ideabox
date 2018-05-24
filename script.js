@@ -113,15 +113,6 @@ function makeIdea(event){
     addIdeaToDom(resultsArray);
   }
 
-
-  // i have an array with all the titles that match.
-  // i want to search throught the full array and return all the objects whose title attribute matches the results array.
-
-  //then i want to do the same thing with the body
-
-  //then i want to compare the two arrays and eliminate all the duplicates. then i want to display the array in the dom
-
-
 function makeIdea(event) {
   if (localStorage.getItem('ideas') === null) {
     event.preventDefault();
