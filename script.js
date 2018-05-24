@@ -101,16 +101,25 @@ function makeIdea(event){
   }};
 
   $('#search').on('keyup', searchInput);
+    function searchInput() {
     var arrayFromLocalStorage = localStorage.getItem('ideas');
     var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
-    function searchInput() {
     var srch = $('#search').val();
     var regex = new RegExp(srch, 'ig');
-    var results = parsedArray.filter(object => object.title.match(regex));
-    var titleSearch = results;
-    console.log(results);
-    console.log(titleSearch);
+    var titleSearchResults = parsedArray.filter(object => object.title.match(regex));
+    var bodySearchResults = parsedArray.filter(object => object.title.match(regex));
+    var mergedArray = $.merge(titleSearchResults, bodySearchResults);
+    var resultsArray = $.uniqueSort(mergedArray);
+    addIdeaToDom(resultsArray);
   }
+
+
+  // i have an array with all the titles that match.
+  // i want to search throught the full array and return all the objects whose title attribute matches the results array.
+
+  //then i want to do the same thing with the body
+
+  //then i want to compare the two arrays and eliminate all the duplicates. then i want to display the array in the dom
 
 
 function makeIdea(event) {
