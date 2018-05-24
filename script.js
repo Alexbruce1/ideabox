@@ -59,18 +59,6 @@ function changeBodyContent() {
   addIdeaToDom(parsedArray);
 }
 
-$('#search').on('keyup', function() {
-  var g = $(this).val().toLowerCase();
-  $('.title').each( function() {
-    var s = $(this).text().toLowerCase();
-    if (s.indexOf(g) != -1 ) {
-      $(this).closest('article').show();
-    } else {
-      $(this).closest('article').hide();
-    }
-  });
-})
-
 function Idea(title,body,id) {
   this.title = title;
   this.body = body;
@@ -112,12 +100,18 @@ function makeIdea(event){
     $body.val('');
   }};
 
-// $('#search').on('keyup', searchInput);
-//   function searchInput() {
-//     var srch = $('#search').val();
-//     console.log(srch);
-//   }
-
+  $('#search').on('keyup', searchInput);
+    function searchInput() {
+    var arrayFromLocalStorage = localStorage.getItem('ideas');
+    var parsedArray = jQuery.parseJSON(arrayFromLocalStorage);
+    var srch = $('#search').val();
+    var regex = new RegExp(srch, 'ig');
+    var titleSearchResults = parsedArray.filter(object => object.title.match(regex));
+    var bodySearchResults = parsedArray.filter(object => object.title.match(regex));
+    var mergedArray = $.merge(titleSearchResults, bodySearchResults);
+    var resultsArray = $.uniqueSort(mergedArray);
+    addIdeaToDom(resultsArray);
+  }
 
 function makeIdea(event) {
   if (localStorage.getItem('ideas') === null) {
